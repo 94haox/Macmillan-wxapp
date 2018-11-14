@@ -1,19 +1,20 @@
 {
-  "pages": [
-    "pages/index/index",
-    "pages/userConsole/userConsole",
-    "pages/storageConsole/storageConsole",
-    "pages/databaseGuide/databaseGuide",
-    "pages/addFunction/addFunction",
-    "pages/deployFunctions/deployFunctions",
-    "pages/chooseLib/chooseLib",
-    "pages/main"
-  ],
-  "window": {
-    "backgroundColor": "#72E87B",
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "麦克米兰7000词",
-    "navigationBarTextStyle": "black"
-  }
+    "pages": [
+        
+        "pages/main/main",
+        "pages/setting/setting",
+        "pages/index/index",
+        "pages/userConsole/userConsole",
+        "pages/storageConsole/storageConsole",
+        "pages/databaseGuide/databaseGuide",
+        "pages/addFunction/addFunction",
+        "pages/deployFunctions/deployFunctions",
+        "pages/chooseLib/chooseLib"
+    ],
+    "window": {
+        "backgroundColor": "#72E87B",
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#72E87B",
+        "navigationBarTitleText": "麦克米兰7000词"
+    }
 }

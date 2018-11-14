@@ -1,0 +1,123 @@
+/* miniprogram/pages/setting/setting.wxss */
+
+.row {
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
+    box-shadow: 0 0 5px 5px rgba(114, 123, 136,0.1);
+    color: rgb(114, 123, 136);
+    font-size: 16px;
+    font-family: PingFangSC-Semibold;
+}
+
+.left-icon{
+    width: 20px;
+    height: 20px
+}
+
+.top-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 32px;
+}
+
+.top-text-title{
+    color: black;
+    font-size: 21px;
+    font-family: PingFangSC-Semibold;
+}
+
+.top-text-subtitle{
+    margin-top: 12px;
+    color: rgb(114, 123, 136);
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+}
+
+.wordcount-container{
+    flex-direction: column;
+    width: 90%;
+    height: 100px;
+    margin-left: 5%;
+    margin-top: 22px;
+}
+
+.wordcount-top{
+    display: flex;
+    justify-content: space-between
+}
+
+.wordcount-text{
+    color: rgb(114, 123, 136);
+    font-size: 16px;
+    font-family: PingFangSC-Semibold;
+    margin-left: 5px;
+}
+
+.announce-container{
+    width: 90%;
+    height: 50px;
+    margin-left: 5%;
+    margin-top: 22px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.announce-left{
+    margin-left: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.announce-step{
+    display: flex;
+    margin-right: 16px;
+}
+
+.announce-step-text-sel{
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: white
+}
+
+.announce-step-text-nor{
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: rgb(114, 123, 136);
+}
+
+.announce-step-left-nor{
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border:2px solid #72E87B;
+    width: 30px;
+}
+
+.announce-step-left-sel{
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-width: 2px;
+    border-color: #72E87B;
+    width: 30px;
+    background-color: #72E87B;
+}
+
+.announce-step-right-nor{
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border:2px solid #72E87B;
+    width: 30px;
+}
+
+.announce-step-right-sel{
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-width: 2px;
+    border-color: #72E87B;
+    width: 30px;
+    background-color: #72E87B;
+}

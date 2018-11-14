@@ -1,0 +1,81 @@
+/* miniprogram/pages/main/main.wxss */
+
+.header-icon{
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    background-color: RGB(202,202,202);
+    margin: 16px;
+}
+
+.center-view{
+    box-shadow: 0 0 5px 5px rgba(114, 123, 136,0.1);
+    border-radius: 10px;
+    width: 80%;
+    margin-left: 10%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    justify-content: flex-start;
+    margin-top: 10px;
+}
+
+.word{
+    margin-left: 32px;
+    margin-top: 32px;
+    font-size: 30px;
+    font-family: PingFangSC-Semibold
+}
+
+.anunce-container{
+    margin-top: 16px;
+    display: inline-flex;
+    align-items: flex-start; 
+    justify-content: center;
+}
+
+.voice-icon{
+    width: 32px;
+    height: 32px;
+    margin-left: 6px;
+}
+
+.anunce{
+    margin-left: 32px;
+    font-size: 16px;
+    color: RGB(202,202,202);
+}
+
+.means{
+    width: 100%;
+    height: 50%;
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: RGB(202,202,202);
+}
+
+.bottom-view{
+    display: flex;
+    margin-top: 50px;
+    justify-content: space-around;
+}
+
+.forget-btn{
+    background: #72E87B;
+    color: white;
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.confirm-btn{
+    background: #72E87B;
+    color: white;
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+}

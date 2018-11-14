@@ -1,0 +1,58 @@
+<!--miniprogram/pages/setting/setting.wxml-->
+<view class='container'>
+    <view class='top-text'>
+        <text class='top-text-title' style='margin-right:16px'>7000词词库来源</text>
+        <text class='top-text-subtitle' >本词库来自于《麦克米伦高阶英汉双解词典》中的三星高频7000词（已合并重复词汇），据麦克米伦调查，熟练掌握这些词汇，足以应对90%的常见英文文章</text>
+    </view>
+    <view class='wordcount-container row'>
+        <view class='wordcount-top'>
+            <view class='announce-left'>
+                <image class='left-icon' src='../../images/shuliang.png'></image>
+                <text class='wordcount-text'>每日单词量</text>
+            </view>
+            <text class='wordcount-text' style='margin-right:16px'>平均需要{{daycount}}天</text>
+        </view>
+        <slider bindchange='changeWordCount' max='500' value='300' activeColor='#72E87B' show-value/>
+    </view>
+    <view class='announce-container row'>
+        <view class='announce-left'>
+            <image class='left-icon' src='../../images/fayin.png'></image>
+            <text style='margin-left:5px'>发音类型</text>
+        </view>
+        <view wx:if="{{isEnAnnuce}}" class='announce-step' bindtap='changeAnnounceType'>
+            <view class='announce-step-left-sel content-center'>
+                <text class='announce-step-text-sel'>英</text>
+            </view>
+            <view class='announce-step-right-nor content-center'>
+                <text class='announce-step-text-nor'>美</text>
+            </view>
+        </view>
+        <view wx:else class='announce-step' bindtap='changeAnnounceType'>
+            <view class='announce-step-left-nor content-center'>
+                <text class='announce-step-text-nor'>英</text>
+            </view>
+            <view class='announce-step-right-sel content-center'>
+                <text class='announce-step-text-sel'>美</text>
+            </view>
+        </view>
+    </view>
+    <view class='announce-container row'>
+        <view class='announce-left'>
+            <image class='left-icon' src='../../images/zidong.png'></image>
+            <text style='margin-left:5px'>自动发音</text>
+        </view>
+        <switch style='margin-right:16px' color='#72E87B' bindchange='changeAutoAnnuce' checked='{{isAuto}}'></switch>
+    </view>
+    <picker mode="time" value="{{time}}" start="09:01" end="21:01" bindchange="bindTimeChange">
+    <view class='announce-container row picker'>
+        <view class='announce-left'>
+            <image class='left-icon' src='../../images/tixing.png'></image>
+            <text style='margin-left:5px'>背诵提醒时间</text>
+        </view>
+        <text style='margin-right:16px'>{{memoryTime}}</text>
+    </view>
+      
+  </picker>
+
+
+</view>
