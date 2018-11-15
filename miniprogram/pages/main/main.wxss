@@ -1,19 +1,35 @@
 /* miniprogram/pages/main/main.wxss */
 
-.header-icon{
-    width: 36px;
-    height: 36px;
-    border-radius: 18px;
-    background-color: RGB(202,202,202);
-    margin: 16px;
+.header-view{
+  width: 100%;
+  margin-top:10px; 
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
+
+.header-view-text{
+    color: rgb(114, 123, 136);
+    font-size: 14px;
+    font-family: PingFangSC-Regular;
+}
+
+.userinfo-avatar {
+  margin-left: 10%;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-size: cover;
+  background-color: white;
+}
+
 
 .center-view{
     box-shadow: 0 0 5px 5px rgba(114, 123, 136,0.1);
     border-radius: 10px;
     width: 80%;
     margin-left: 10%;
-    height: 400px;
+    height: 800rpx;
     display: flex;
     flex-direction: column;
     align-items: flex-start; 
@@ -31,7 +47,7 @@
 .anunce-container{
     margin-top: 16px;
     display: inline-flex;
-    align-items: flex-start; 
+    align-items: center; 
     justify-content: center;
 }
 

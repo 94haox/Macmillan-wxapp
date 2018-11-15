@@ -1,4 +1,4 @@
-[
+var data = [
     {
         "word": "abandon",
         "means": "n. 放任；狂热 vt. 遗弃；放弃",
@@ -44211,3 +44211,8 @@
         "Am": "[zu]"
     }
 ]
+
+
+module.exports = {
+  wordlist: data
+}  

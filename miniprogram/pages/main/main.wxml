@@ -1,6 +1,14 @@
 <!--miniprogram/pages/main/main.wxml-->
 <view class='container'>
-    <image src='' class='header-icon' bindtap='toSetting'></image>
+    <view class='header-view'>
+      <button 
+      open-type="getUserInfo" 
+      bindgetuserinfo="onGetUserInfo"
+      class="userinfo-avatar"
+      style="background-image: url({{avatarUrl}})"
+      ></button>
+      <text class='header-view-text'>{{nickName}}</text>
+    </view>
     <view class='center-view'>
         <view class='word'>{{currentWord["word"]}}</view>
         <view class='anunce-container'>

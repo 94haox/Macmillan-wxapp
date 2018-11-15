@@ -1,21 +1,49 @@
 
-function getAllWords(){
-    // let content = wx.getFileSystemManager().readFile('../file/7000Words.json')
-    let content = wx.getSavedFileList({
-        success(res){
-            console.log(res)
+
+const db = wx.cloud.database()
+
+
+function getFirstWords(){
+  db.collection('MicMillan-words')
+}
+
+function addUser(userInfo){
+
+  wx.cloud.callFunction({
+    name: 'login',
+    data: {},
+    success: res => {
+      db.collection('users').add({
+        data: {
+          openId: res.result.openid,
+          isEnAnnuce: true,
+          isAuto:false,
+          dayCount:300,
+          memoryTime:'20:00'
+        },
+        success: function (res) {
         }
-    })
-    wx.saveFile({
-        tempFilePath: '',
-    })
-    // console.log(content)
+      })
+    }
+  })
+}
+
+function isExsit(openId) {
+  db.collection('users').where({
+    openId: openId,
+  }).get().then(res=>{
+    
+  })
 }
 
 
 
 
 
+
+
 module.exports = {
-    getAllWords: getAllWords
+  getFirstWords: getFirstWords,
+  addUser: addUser,
+  isExsit: isExsit
 }

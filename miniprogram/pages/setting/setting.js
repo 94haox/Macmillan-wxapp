@@ -32,15 +32,22 @@ Page({
 
     },
 
+    formSubmit: function (e) {
+      let formId = event.detail.formId;
+      console.log('form发生了submit事件，推送码为：', formId)
+    },
+
     changeWordCount: function (el) {
         let value = el.detail.value
         this.setData({
             daycount: value
         })
+        wx.setStorageSync("daycount", value)
     },
 
     changeAutoAnnuce: function (el){
         let value = el.detail.value
+        wx.setStorageSync("isAuto", value)
     },
 
     changeAnnounceType: function () {
@@ -48,6 +55,7 @@ Page({
         this.setData({
             isEnAnnuce: aunnceType
         })
+        wx.setStorageSync("isEnAnnuce", aunnceType)
     },
 
     bindTimeChange: function (el) {

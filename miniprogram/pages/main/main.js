@@ -14,6 +14,12 @@ Page({
             "En": "[əˈbænd(ə)n]",
             "Am": "[əˈbændən]"
         },
+        isAuto:false,
+        currentCount:300,
+        avatarUrl:"../../images/user-unlogin.png",
+        nickName:"点击获取微信昵称",
+        isLogin:false,
+        userInfo:{},
         isClear: false
     },
 
@@ -21,21 +27,36 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+      // 获取用户信息
+      wx.getSetting({
+        success: res => {
+          if (res.authSetting['scope.userInfo']) {
+            // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+            wx.getUserInfo({
+              success: res => {
+                this.setData({
+                  isLogin:true
+                })
+                this.updateUserInfo(res.userInfo)
+              }
+            })
+          }
+        }
+      })
     },
 
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-
+      
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        filetools.getAllWords()
+
     },
 
     /**
@@ -75,6 +96,22 @@ Page({
         wx.navigateTo({
             url: "../setting/setting"
         })
+    },
+
+    onGetUserInfo: function (e) {
+      if (!this.logged && e.detail.userInfo) {
+        this.updateUserInfo(e.detail.userInfo)
+      }
+    },
+
+    updateUserInfo: function(userInfo) {
+      console.log(userInfo)
+      this.setData({
+        logged: true,
+        avatarUrl: userInfo.avatarUrl,
+        nickName: userInfo.nickName,
+        userInfo: userInfo,
+      })
     }
 
 
