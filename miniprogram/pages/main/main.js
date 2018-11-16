@@ -14,6 +14,8 @@ Page({
             "En": "[əˈbænd(ə)n]",
             "Am": "[əˈbændən]"
         },
+        currentIndex:0,
+        wordlist:[],
         isAuto:false,
         currentCount:300,
         avatarUrl:"../../images/user-unlogin.png",
@@ -49,7 +51,15 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-      
+      let that = this
+      filetools.getFirstWords().then(res=>{
+        let current = res[0]
+        that.setData({
+          currentIndex:0,
+          currentWord: current,
+          wordlist: res
+        })
+      })
     },
 
     /**
@@ -59,15 +69,19 @@ Page({
 
     },
 
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function () {
-
-    },
-
     nextWordAction: function() {
         console.log('nextword')
+        let index = this.data.currentIndex + 1
+        if(index < this.data.wordlist.length){
+          let wordlist = this.data.wordlist;
+          this.setData({
+            currentIndex: index,
+            currentWord: wordlist[index]
+          })
+        }
+        this.setData({
+          isClear: false
+        })
     },
 
     forgetAction: function() {
@@ -105,9 +119,7 @@ Page({
     },
 
     updateUserInfo: function(userInfo) {
-      console.log(userInfo)
       this.setData({
-        logged: true,
         avatarUrl: userInfo.avatarUrl,
         nickName: userInfo.nickName,
         userInfo: userInfo,

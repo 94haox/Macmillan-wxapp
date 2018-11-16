@@ -52,8 +52,9 @@
           <text style='margin-right:16px'>{{memoryTime}}</text>
       </view>
     </picker>
-    <form bindsubmit="formSubmit" report-submit>
-      <button formType="submit">保存</button>
-    </form>
-
+    <view class='save-btn'>
+        <form bindsubmit="formSubmit" report-submit>
+          <button class='free-btn-bordernone' formType="submit">保存</button>
+        </form>
+    </view>
 </view>

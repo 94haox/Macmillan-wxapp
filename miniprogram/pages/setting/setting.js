@@ -38,6 +38,7 @@ Page({
     },
 
     changeWordCount: function (el) {
+        //6152 个
         let value = el.detail.value
         this.setData({
             daycount: value

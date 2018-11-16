@@ -121,3 +121,15 @@
     width: 30px;
     background-color: #72E87B;
 }
+
+.save-btn{
+  position: absolute;
+  bottom: 30px;
+  width: 80%;
+  height: 50px;
+  margin-left: 10%;
+  border-radius: 25px;
+  background-color: #72E87B;
+  box-shadow: 0 0 5px 5px rgba(114, 232, 124, 0.247);
+}
+

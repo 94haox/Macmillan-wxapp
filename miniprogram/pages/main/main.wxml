@@ -4,7 +4,7 @@
       <button 
       open-type="getUserInfo" 
       bindgetuserinfo="onGetUserInfo"
-      class="userinfo-avatar"
+      class="userinfo-avatar free-btn-bordernone"
       style="background-image: url({{avatarUrl}})"
       ></button>
       <text class='header-view-text'>{{nickName}}</text>
@@ -16,7 +16,7 @@
             <image class='voice-icon' src='../../images/voice.png' bindtap='playCurrentWord'></image>
         </view>
         <view class='means' bindtap='checkMeans'>
-            <view wx:if="{{isClear}}" >{{currentWord["means"]}}</view>
+            <view class='means-text' wx:if="{{isClear}}" >{{currentWord["means"]}}</view>
             <view wx:else>点击查看解释</view>
         </view>
     </view>

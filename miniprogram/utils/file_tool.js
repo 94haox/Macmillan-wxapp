@@ -3,8 +3,14 @@
 const db = wx.cloud.database()
 
 
-function getFirstWords(){
-  db.collection('MicMillan-words')
+function getFirstWords(count){
+  return new Promise(function (resolve, reject){
+    db.collection('Micmillan-words').get().then(res => {
+      resolve(res['data'])
+    }).catch(error => {
+      reject(error)
+    })
+  })
 }
 
 function addUser(userInfo){

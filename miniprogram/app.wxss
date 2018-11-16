@@ -11,7 +11,15 @@
 
 
 .content-center{
-     display: flex;  
+    display: flex;  
     align-items: center;
     justify-content:center;
+}
+
+.free-btn-bordernone{
+  background: none;
+  color: white;
+}
+.free-btn-bordernone::after{
+  border: none;
 }
