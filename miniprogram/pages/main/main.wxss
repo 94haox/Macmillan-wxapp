@@ -5,13 +5,43 @@
   margin-top:10px; 
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.header-view-left{
+  width: 50%;
+  display: flex;
+  align-items: center;
   justify-content: flex-start;
+}
+
+.header-view-right{
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 16px;
+}
+
+.word-count{
+  width: 60px;
+  height: 30px;
+  border-radius: 15px;
+  color: white;
+  background-color: #72E87B;
+  box-shadow: 0 0 5px 5px rgba(114, 232, 124, 0.267);
+}
+
+.word-count-text{
+  font-size: 14px;
+  font-family: PingFangSC-Regular;
 }
 
 .header-view-text{
     color: rgb(114, 123, 136);
     font-size: 14px;
-    font-family: PingFangSC-Regular;
+    margin-left: 12px;
+    font-family: PingFangSC-Medium;
 }
 
 .userinfo-avatar {
@@ -40,7 +70,7 @@
 .word{
     margin-left: 32px;
     margin-top: 32px;
-    font-size: 30px;
+    font-size: 28px;
     font-family: PingFangSC-Semibold
 }
 

@@ -1,13 +1,15 @@
 <!--miniprogram/pages/main/main.wxml-->
 <view class='container'>
     <view class='header-view'>
-      <button 
-      open-type="getUserInfo" 
-      bindgetuserinfo="onGetUserInfo"
-      class="userinfo-avatar free-btn-bordernone"
-      style="background-image: url({{avatarUrl}})"
-      ></button>
-      <text class='header-view-text'>{{nickName}}</text>
+      <view class='header-view-left'>
+        <image class='userinfo-avatar' src='{{avatarUrl}}'></image>
+        <text class='header-view-text'>{{nickName}}</text>
+      </view>
+      <view class='header-view-right' bindtap='toSetting'>
+        <view class='word-count content-center'>
+          <text class='word-count-text'>{{wordlist.length}}</text>
+        </view>
+      </view>
     </view>
     <view class='center-view'>
         <view class='word'>{{currentWord["word"]}}</view>
@@ -22,10 +24,10 @@
     </view>
     <view class='bottom-view'>
         <view class='forget-btn content-center' bindtap='forgetAction'>
-            <text>忘记</text>
+            <text>{{forgettext}}</text>
         </view>
         <view class='confirm-btn content-center' bindtap='nextWordAction'>
-            <text>记得</text>
+            <text>{{confirmtext}}</text>
         </view>
     </view>
 </view>

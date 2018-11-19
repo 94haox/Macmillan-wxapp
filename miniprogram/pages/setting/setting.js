@@ -1,4 +1,7 @@
-// miniprogram/pages/setting/setting.js
+
+const config = require('../../config.js')
+
+
 Page({
 
     /**
@@ -9,13 +12,16 @@ Page({
         isAuto: false,
         memoryTime: '20:00',
         daycount:20,
+        version:"v1.0"
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+      this.setData({
+        version: config.appversion
+      })
     },
 
     /**
@@ -35,6 +41,7 @@ Page({
     formSubmit: function (e) {
       let formId = event.detail.formId;
       console.log('form发生了submit事件，推送码为：', formId)
+      
     },
 
     changeWordCount: function (el) {

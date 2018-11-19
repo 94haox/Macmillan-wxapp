@@ -57,4 +57,7 @@
           <button class='free-btn-bordernone' formType="submit">保存</button>
         </form>
     </view>
+    <view class='content-center'>
+      <text class='version-text'>版本: v{{version}}</text>
+    </view>
 </view>

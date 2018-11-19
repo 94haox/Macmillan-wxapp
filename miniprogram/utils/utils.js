@@ -7,9 +7,9 @@
  */
 
 
-// const md5 = require('md5')
-// const config = require('../config')
-// const errorCode = require('./errorCode')
+const md5 = require('md5')
+const config = require('../config')
+const errorCode = require('./errorCode')
 const ver = config.appversion
 const source = config.source
 const appId = config.appId
@@ -20,7 +20,6 @@ function getAppInstance(app){
     console.log('instance_____',app)
     appInstance = app
 }
-
 
 // 手机号判断
 function isMobile(number) {
@@ -157,25 +156,7 @@ function wxPromise(wxFun) {
                     resolve(res.data)
                     return;
                 }
-                let ercode = JSON.stringify(res.data.code);
-
-                if (ercode == errorCode.USER_TOKEN_IS_UNVALID || ercode == errorCode.TOKEN_IS_NULL || ercode == errorCode.USERID_IS_EMPTY || ercode == errorCode.USER_NOT_FOUND) {
-                    wx.hideLoading();
-                    if (wx.getStorageSync("isLogin")){
-                        wx.setStorageSync('isLogin', false)
-                        goto(config.page.login)
-                        // appInstance.callUserCheck().then(data => {
-                        //     resolve(data)
-                        // }).catch(error => {
-                        // goto(config.page.login)
-                        //     reject(error)
-                        // })
-                        // return
-                    }
-
-                    reject(res)
-                }
-                resolve(res.data)
+                resolve(res.data.data)
             }
             obj.fail = function (res) {
                 wx.hideLoading()

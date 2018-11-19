@@ -1,7 +1,8 @@
 // miniprogram/pages/main/main.js
-const db = wx.cloud.database()
-const filetools = require('../../utils/file_tool')
-// const $ = require('../../utils/utils');
+
+const api = require('../../api/main_api.js')
+const $ = require('../../utils/utils.js')
+const config = require('../../config.js')
 Page({
 
     /**
@@ -16,13 +17,16 @@ Page({
         },
         currentIndex:0,
         wordlist:[],
+        forgetWordList:[],
         isAuto:false,
         currentCount:300,
         avatarUrl:"../../images/user-unlogin.png",
         nickName:"点击获取微信昵称",
         isLogin:false,
         userInfo:{},
-        isClear: false
+        isClear: false,
+        confirmtext:'记得',
+        forgettext:'忘记'
     },
 
     /**
@@ -52,12 +56,10 @@ Page({
      */
     onReady: function () {
       let that = this
-      filetools.getFirstWords().then(res=>{
-        let current = res[0]
+      api.getWords().then(items=>{
         that.setData({
-          currentIndex:0,
-          currentWord: current,
-          wordlist: res
+          'wordlist':items,
+          'currentword':items.shift()
         })
       })
     },
@@ -70,22 +72,32 @@ Page({
     },
 
     nextWordAction: function() {
-        console.log('nextword')
-        let index = this.data.currentIndex + 1
-        if(index < this.data.wordlist.length){
-          let wordlist = this.data.wordlist;
+ 
+        let current = this.data.wordlist.shift()
+        let wordlist = this.data.wordlist
+        if (current){
           this.setData({
-            currentIndex: index,
-            currentWord: wordlist[index]
+            isClear: false,
+            confirmtext: '记得',
+            currentWord: current,
+            wordlist:wordlist
+          })
+        }else{
+          this.setData({
+            isClear: false,
+            confirmtext: 'End'
           })
         }
-        this.setData({
-          isClear: false
-        })
     },
 
     forgetAction: function() {
-        console.log('forget')
+        let forgetlist = this.data.forgetWordList
+        forgetlist.push(this.data.currentWord)
+        wx.setStorageSync('forgetlist', forgetlist)
+        this.setData({
+          forgetWordList:forgetlist,
+          confirmtext:'下一个'
+        })
         this.showMeans()
     },
 
@@ -107,15 +119,7 @@ Page({
     },
 
     toSetting: function(){
-        wx.navigateTo({
-            url: "../setting/setting"
-        })
-    },
-
-    onGetUserInfo: function (e) {
-      if (!this.logged && e.detail.userInfo) {
-        this.updateUserInfo(e.detail.userInfo)
-      }
+        $.goto(config.page.setting)
     },
 
     updateUserInfo: function(userInfo) {
