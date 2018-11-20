@@ -3,6 +3,7 @@
 
 const $ = require('../../utils/utils.js')
 const config = require('../../config.js')
+const userApi = require('../../api/user_api.js')
 const file_tool = require('../../utils/file_tool.js')
 
 Page({
@@ -46,14 +47,37 @@ Page({
   },
 
   configUser: function (userInfo) {
-    
+    let that = this
     this.setData({
       avatarUrl: userInfo.avatarUrl,
       nickName: userInfo.nickName,
       showAuthor: false
     })
     wx.setStorageSync('userinfo', userInfo);
-    console.log(userInfo)
+    let openid = wx.getStorageSync('openId')
+    if(openid.length < 1){
+      $.callCloud('login').then(res => {
+        let openid = res.openid
+        wx.setStorageSync('openId', openid)
+        that.updateUser(userInfo,openid)
+      })
+    }else{
+      that.updateUser(userInfo, openid)
+    }
+  },
+
+  updateUser: function (userInfo,openid) {
+    let params = {
+      openId: openid,
+      nickName: userInfo.nickName,
+      avatarUrl: userInfo.avatarUrl,
+    }
+
+    userApi.updateUser(params).then(res=>{
+      console.log(res)
+    }).catch(error=>{
+
+    })
   },
 
   isShowAuthor: function () {

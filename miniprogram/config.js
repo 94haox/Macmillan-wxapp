@@ -24,6 +24,7 @@ var config = {
   /**************后台接口定义***********************/
   // 获取单词
   getWords: `https://${host}/wordlist`,
+  updateUser: `https://${host}/user/updateUser`,
 
 };
 module.exports = config

@@ -394,6 +394,22 @@ function del(url) {
     })
 }
 
+
+function callCloud (name,data={}) {
+  return new Promise(function(resolve, reject){
+    wx.cloud.callFunction({
+      name: name,
+      data: data,
+      success: res => {
+        resolve(res.result)
+      },
+      fail: error => {
+        reject(error)
+      }
+    }) 
+  })
+}
+
 /*****************************************************************
  *  EXPORT
  *****************************************************************/
@@ -423,5 +439,6 @@ module.exports = {
     isNullOrEmpty: isNullOrEmpty,
 
     uploadToOSS: uploadToOSS,
-    getAppInstance: getAppInstance
+    getAppInstance: getAppInstance,
+    callCloud: callCloud
 }

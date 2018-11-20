@@ -7,6 +7,7 @@ function addUser(userInfo){
       data: {
         openId: res.result.openid,
         nickName: userInfo.nickName,
+        avatarUrl: userInfo.avatarUrl,
         isEnAnnuce: true,
         isAuto: false,
         dayCount: 300,
