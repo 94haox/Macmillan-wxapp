@@ -19,11 +19,12 @@ Page({
         wordlist:[],
         forgetWordList:[],
         isAuto:false,
+        isEn:true,
         currentCount:300,
         avatarUrl:"../../images/user-unlogin.png",
         nickName:"点击获取微信昵称",
         isLogin:false,
-        userInfo:{},
+        user:{},
         isClear: false,
         confirmtext:'记得',
         forgettext:'忘记'
@@ -33,22 +34,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-      // 获取用户信息
-      wx.getSetting({
-        success: res => {
-          if (res.authSetting['scope.userInfo']) {
-            // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-            wx.getUserInfo({
-              success: res => {
-                this.setData({
-                  isLogin:true
-                })
-                this.updateUserInfo(res.userInfo)
-              }
-            })
-          }
-        }
-      })
+      
     },
 
     /**
@@ -58,8 +44,8 @@ Page({
       let that = this
       api.getWords().then(items=>{
         that.setData({
-          'wordlist':items,
-          'currentword':items.shift()
+          wordlist:items,
+          currentWord:items.shift()
         })
       })
     },
@@ -68,7 +54,17 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
+      console.log('main.js_onShow')
+      let user = wx.getStorageSync('currentUser')
+      let isAuto = user.isAuto == 1 ? true : false
+      let isEn = user.isEnAnnuce == 1 ? true : false
+      console.log(user.isEnAnnuce)
+      this.setData({
+        isAuto: isAuto,
+        isEn: isEn,
+        user: user
+      })
+      this.updateUserInfo(user)
     },
 
     nextWordAction: function() {
@@ -91,11 +87,10 @@ Page({
     },
 
     forgetAction: function() {
-        let forgetlist = this.data.forgetWordList
-        forgetlist.push(this.data.currentWord)
-        wx.setStorageSync('forgetlist', forgetlist)
+        let wordlist = this.data.wordlist
+        wordlist.push(this.data.currentWord)
         this.setData({
-          forgetWordList:forgetlist,
+          wordlist: wordlist,
           confirmtext:'下一个'
         })
         this.showMeans()
@@ -112,9 +107,10 @@ Page({
     },
 
     playCurrentWord: function() {
+        let type = this.data.isEn ? '1' : '2'
         const audio = wx.createInnerAudioContext()
         audio.autoplay = true
-        audio.src = `http://dict.youdao.com/dictvoice?audio=${this.data.currentWord['word']}&type=1`
+        audio.src = `http://dict.youdao.com/dictvoice?audio=${this.data.currentWord['word']}&type=${type}`
 
     },
 
@@ -122,11 +118,11 @@ Page({
         $.goto(config.page.setting)
     },
 
-    updateUserInfo: function(userInfo) {
+    updateUserInfo: function (user) {
       this.setData({
-        avatarUrl: userInfo.avatarUrl,
-        nickName: userInfo.nickName,
-        userInfo: userInfo,
+        avatarUrl: user.avatarUrl,
+        nickName: user.nickName,
+        user: user,
       })
     }
 

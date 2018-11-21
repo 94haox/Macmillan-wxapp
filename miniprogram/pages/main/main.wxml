@@ -14,7 +14,8 @@
     <view class='center-view'>
         <view class='word'>{{currentWord["word"]}}</view>
         <view class='anunce-container'>
-            <text class='anunce'>英：{{currentWord["En"]}}</text>
+            <text class='anunce' wx:if='{{isEn}}'>英：{{currentWord["En"]}}</text>
+            <text class='anunce' wx:else>美：{{currentWord["Am"]}}</text>
             <image class='voice-icon' src='../../images/voice.png' bindtap='playCurrentWord'></image>
         </view>
         <view class='means' bindtap='checkMeans'>
