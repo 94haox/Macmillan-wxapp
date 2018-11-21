@@ -74,9 +74,8 @@ Page({
     }
 
     userApi.updateUser(params).then(res=>{
-      console.log(res)
+      wx.setStorageSync('currentUser', res)
     }).catch(error=>{
-
     })
   },
 

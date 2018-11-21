@@ -10,9 +10,9 @@
                 <image class='left-icon' src='../../images/shuliang.png'></image>
                 <text class='wordcount-text'>每日单词量</text>
             </view>
-            <text class='wordcount-text' style='margin-right:16px'>平均需要{{daycount}}天</text>
+            <text class='wordcount-text' style='margin-right:16px'>平均需要{{dayCount}}天</text>
         </view>
-        <slider bindchange='changeWordCount' max='500' value='300' activeColor='#72E87B' show-value/>
+        <slider bindchange='changeWordCount' max='500' value='{{dayCount}}' activeColor='#72E87B' show-value/>
     </view>
     <view class='announce-container row'>
         <view class='announce-left'>
