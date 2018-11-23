@@ -10,6 +10,7 @@
 const md5 = require('md5')
 const config = require('../config')
 const errorCode = require('./errorCode')
+const moment = require('moment')
 const ver = config.appversion
 const source = config.source
 const appId = config.appId
@@ -410,6 +411,35 @@ function callCloud (name,data={}) {
   })
 }
 
+
+/*****************************************************
+ * 
+ * 时间相关
+ * 
+ *****************************************************/
+
+  function timeIsEqual (first,second) {
+    let firstInterval = moment(first).format('YYYY MM DD')
+    let secondInterval = moment(second).format('YYYY MM DD')
+    console.log(firstInterval, secondInterval, (firstInterval == secondInterval))
+    return (firstInterval == secondInterval)
+  }
+
+  //
+  function needRemeber (now,second) {
+    let firstTime = moment(now).format('YYYY MM DD')
+    let secondTime = moment(second).format('YYYY MM DD')
+
+    if (moment(secondTime).isBefore(firstTime) || moment(secondTime).isSame(firstTime)){
+      return true
+    }else{
+      return false
+    }
+  }
+
+
+
+
 /*****************************************************************
  *  EXPORT
  *****************************************************************/
@@ -440,5 +470,8 @@ module.exports = {
 
     uploadToOSS: uploadToOSS,
     getAppInstance: getAppInstance,
-    callCloud: callCloud
+    callCloud: callCloud,
+
+    timeIsEqual: timeIsEqual,
+    needRemeber: needRemeber
 }

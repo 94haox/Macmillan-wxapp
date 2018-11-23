@@ -1,34 +1,40 @@
 <!--miniprogram/pages/main/main.wxml-->
 <view class='container'>
-    <view class='header-view'>
-      <view class='header-view-left'>
-        <image class='userinfo-avatar' src='{{avatarUrl}}'></image>
-        <text class='header-view-text'>{{nickName}}</text>
-      </view>
-      <view class='header-view-right' bindtap='toSetting'>
-        <view class='word-count content-center'>
-          <text class='word-count-text'>{{wordlist.length}}</text>
-        </view>
+  <view class='header-view'>
+    <view class='header-view-left'>
+      <image class='userinfo-avatar' src='{{avatarUrl}}'></image>
+      <text class='header-view-text'>{{nickName}}</text>
+    </view>
+    <view class='header-view-right' bindtap='toSetting'>
+      <view class='word-count content-center'>
+        <text class='word-count-text'>{{wordlist.length}}</text>
       </view>
     </view>
+  </view>
+  <view wx:if='{{!isMemoryEnd}}'>
     <view class='center-view'>
-        <view class='word'>{{currentWord["word"]}}</view>
-        <view class='anunce-container'>
-            <text class='anunce' wx:if='{{isEn}}'>英：{{currentWord["En"]}}</text>
-            <text class='anunce' wx:else>美：{{currentWord["Am"]}}</text>
-            <image class='voice-icon' src='../../images/voice.png' bindtap='playCurrentWord'></image>
-        </view>
-        <view class='means' bindtap='checkMeans'>
-            <view class='means-text' wx:if="{{isClear}}" >{{currentWord["means"]}}</view>
-            <view wx:else>点击查看解释</view>
-        </view>
+      <view class='word'>{{currentWord["word"]}}</view>
+      <view class='anunce-container'>
+        <text class='anunce' wx:if='{{isEn}}'>英：{{currentWord["En"]}}</text>
+        <text class='anunce' wx:else>美：{{currentWord["Am"]}}</text>
+        <image class='voice-icon' src='../../images/voice.png' bindtap='playCurrentWord'></image>
+      </view>
+      <view class='means' bindtap='checkMeans'>
+        <view class='means-text' wx:if="{{isClear}}">{{currentWord["means"]}}</view>
+        <view wx:else>点击查看解释</view>
+      </view>
     </view>
     <view class='bottom-view'>
-        <view class='forget-btn content-center' bindtap='forgetAction'>
-            <text>{{forgettext}}</text>
-        </view>
-        <view class='confirm-btn content-center' bindtap='nextWordAction'>
-            <text>{{confirmtext}}</text>
-        </view>
+      <view class='forget-btn content-center' bindtap='forgetAction'>
+        <text>{{forgettext}}</text>
+      </view>
+      <view class='confirm-btn content-center' bindtap='nextWordAction'>
+        <text>{{confirmtext}}</text>
+      </view>
     </view>
+  </view>
+  <view wx:else class='content-center'>
+    <text class='means-text'>恭喜完成今天的记忆任务，休息一下，明天再来努力吧</text>
+  </view>
+
 </view>

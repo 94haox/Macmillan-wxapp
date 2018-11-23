@@ -5,6 +5,7 @@ const $ = require('../../utils/utils.js')
 const config = require('../../config.js')
 const userApi = require('../../api/user_api.js')
 const file_tool = require('../../utils/file_tool.js')
+const moment = require('moment');
 
 Page({
 
@@ -24,17 +25,12 @@ Page({
     this.isShowAuthor()
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    
 
   },
 
@@ -75,6 +71,7 @@ Page({
 
     userApi.updateUser(params).then(res=>{
       wx.setStorageSync('currentUser', res)
+      wx.setStorageSync('userId', res._id)
     }).catch(error=>{
     })
   },

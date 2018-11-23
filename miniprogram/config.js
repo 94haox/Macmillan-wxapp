@@ -3,8 +3,10 @@
  */
 
 
-var host = "api.funnyfm.top/api"; 
-
+// var host = "api.funnyfm.top/api"; 
+// var hostPrefix = 'https'
+var host = '127.0.0.1:7001/api'
+var hostPrefix = 'http'
 var config = {
 
   // 页面常量
@@ -23,8 +25,10 @@ var config = {
 
   /**************后台接口定义***********************/
   // 获取单词
-  getWords: `https://${host}/v1/wordlist`,
-  updateUser: `https://${host}/v1/user/updateUser`,
+  getWords: `${hostPrefix}://${host}/v1/wordlist`,
+  updateUser: `${hostPrefix}://${host}/v1/user/updateUser`,
+  updateRecord: `${hostPrefix}://${host}/v1/user/updateRecord`,
+  getRecords: `${hostPrefix}://${host}/v1/user/getRecords`,
 
 };
 module.exports = config
