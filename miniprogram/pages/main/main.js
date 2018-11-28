@@ -6,6 +6,7 @@ const $ = require('../../utils/utils.js')
 const config = require('../../config.js')
 const moment = require('moment');
 
+
 Page({
 
   /**
@@ -33,8 +34,9 @@ Page({
     forgettext: '忘记',
     beginIndex: 1,
     endIndex: 300,
-    recordlist: [],
-    isMemoryEnd: false
+    recordlist: [],      // 背诵记录列表
+    isMemoryEnd: false,
+    isBackMemory: false // 是否是复习词汇
   },
 
   /**
@@ -83,7 +85,15 @@ Page({
         wordlist: wordlist
       })
     } else {
-      this.creatRecord()
+      if(!this.data.isBackMemory) {
+        this.setData({
+          isBackMemory:true
+        })
+        this.creatRecord()
+      }else{
+
+      }
+      
       this.setData({
         isMemoryEnd:true,
         isClear: false,
@@ -148,9 +158,6 @@ Page({
     let skip = 0
 
     if (records.length > 0) {
-      this.setData({
-        recordlist: records
-      })
       let nearlyRecord = records.pop()
       if ($.timeIsEqual(nearlyRecord.startDate, Date.now())) {
         beginIndex = nearlyRecord.beginIndex
@@ -171,6 +178,31 @@ Page({
         currentWord: items.shift()
       })
     })
+    this.getAllNeedMemoryWords(records)
+  },
+
+  getAllNeedMemoryWords: function(records){
+    console.log('main.js_getAllNeedMemoryWords',records)
+    let recordlist = []
+    let that = this
+    records.map(item=>{
+      if ($.needRemeber(item.nextDate)){
+        item.nextDate = $.nextRemeberDate(item)
+        item.nowDate = Date.now()
+        count = item.endIndex - item.beginIndex + 1 
+        skip = item.beginIndex - 1
+        let forgetWordList = that.data.forgetWordList
+        api.getWords(count, skip).then(items => {
+          forgetWordList.concat(items)
+          that.setData({
+            forgetWordList: forgetWordList,
+          })
+        })
+      }
+    })
+    this.setData({
+      recordlist: records
+    })
   },
 
 
@@ -179,13 +211,11 @@ Page({
    */
 
   creatRecord: function () {
-    let date = moment(Date.now()).add('day', 1)
-    console.log(date)
     let params = {
       userId: wx.getStorageSync('userId'),
       startDate: Date.now(),
       nowDate: Date.now(),
-      nextDate: moment(Date.now()).add(1, 'days').unix(),
+      nextDate: moment(Date.now()).add(1, 'days').valueOf(),
       beginIndex: this.data.beginIndex,
       endIndex: this.data.endIndex
     }
@@ -195,5 +225,19 @@ Page({
     })
   },
 
+  updateRecord: function (record) {
+
+    let date = moment(Date.now()).add('day', 1)
+    console.log('main.js_creatRecord()', date)
+    let params = {
+      userId: wx.getStorageSync('userId'),
+      nowDate: Date.now(),
+      nextDate: moment(Date.now()).add(1, 'days').unix(),
+    }
+
+    userApi.updateRecord(params).then(data => {
+      console.log('update-------', data)
+    })
+  },
 
 })

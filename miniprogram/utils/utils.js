@@ -426,15 +426,33 @@ function callCloud (name,data={}) {
   }
 
   //
-  function needRemeber (now,second) {
-    let firstTime = moment(now).format('YYYY MM DD')
-    let secondTime = moment(second).format('YYYY MM DD')
+  function needRemeber (nextDate) {
+    let firstTime = moment().format('YYYY MM DD')
+    let secondTime = moment(nextDate).format('YYYY MM DD')
 
     if (moment(secondTime).isBefore(firstTime) || moment(secondTime).isSame(firstTime)){
       return true
     }else{
       return false
     }
+  }
+
+  function nextRemeberDate (record) {
+    let startTime = moment(record.startDate).format('YYYY MM DD')
+    let nextTime = moment(record.nextDate).format('YYYY MM DD')
+    let difference = moment(nextTime).subtract(moment(startTime)).days()
+    var nextDate = 0
+    if(difference == 1){
+      nextDate = moment(record.nextDate).add('day',1).valueOf()
+    }else if(difference == 2){
+      nextDate = moment(record.nextDate).add('day', 2).valueOf()
+    } else if (difference == 4){
+      nextDate = moment(record.nextDate).add('day', 3).valueOf()
+    } else if (difference == 7){
+      nextDate = moment(record.nextDate).add('day', 8).valueOf()
+    } 
+    console.log('nextRemeberDate', nextDate, moment(nextDate).format('YYYY MM DD'))
+    return nextDate
   }
 
 
@@ -473,5 +491,6 @@ module.exports = {
     callCloud: callCloud,
 
     timeIsEqual: timeIsEqual,
-    needRemeber: needRemeber
+    needRemeber: needRemeber,
+    nextRemeberDate: nextRemeberDate
 }
