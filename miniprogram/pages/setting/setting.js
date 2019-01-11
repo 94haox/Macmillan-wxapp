@@ -12,7 +12,9 @@ Page({
         isEnAnnuce: 0,
         isAuto: 1,
         memoryTime: '20:00',
-        dayCount:20,
+        dayCount:100,
+        needDays:62,
+        needMin:50,
         version:"v1.0",
 
     },
@@ -45,6 +47,7 @@ Page({
         dayCount: currenUser.dayCount,
         openId: currenUser.openId
       })
+      this.configDays(parseInt(currenUser.dayCount))
     },
 
     formSubmit: function (e) {
@@ -69,10 +72,21 @@ Page({
     changeWordCount: function (el) {
         //6152 个
       let value = el.detail.value
+      this.configDays(value)
+    },
+
+    configDays: function (daycout){
+      let min = daycout * 0.5
+      let days = Math.ceil(6152 / daycout)
+      if (daycout == 0) {
+        days = 0
+      }
       this.setData({
-        dayCount: String(value)
+        dayCount: String(daycout),
+        needDays: days,
+        needMin: min,
       })
-      wx.setStorageSync("dayCount", value)
+      wx.setStorageSync("dayCount", daycout)
     },
 
     changeAutoAnnuce: function (el){
@@ -97,5 +111,9 @@ Page({
         this.setData({
             memoryTime: memoryTime
         })
+    },
+
+    toFeedBack: function (){
+      $.goto(config.page.feedback)
     }
 })

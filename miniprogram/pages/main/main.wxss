@@ -132,3 +132,11 @@
     border-radius: 20px;
     box-shadow: 0 0 5px 5px rgba(114, 232, 124, 0.247);
 }
+
+.end-container{
+    width: 90%;
+    height: 700rpx;
+    margin-left: 5%;
+    margin-top: 40px;
+    color: rgb(114, 123, 136);
+}

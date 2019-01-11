@@ -19,15 +19,12 @@ Page({
       "En": "[əˈbænd(ə)n]",
       "Am": "[əˈbændən]"
     },
-    currentIndex: 0,
     wordlist: [],
     forgetWordList: [],
     isAuto: false,
     isEn: true,
-    currentCount: 300,
     avatarUrl: "../../images/user-unlogin.png",
     nickName: "点击获取微信昵称",
-    isLogin: false,
     user: {},
     isClear: false,
     confirmtext: '记得',
@@ -36,26 +33,19 @@ Page({
     endIndex: 300,
     recordlist: [],      // 背诵记录列表
     isMemoryEnd: false,
-    isBackMemory: false // 是否是复习词汇
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
-    let params = {
-      'userId': wx.getStorageSync('userId')
-    }
-    let that = this
-    userApi.getRecords(params).then(data => {
-      that.getTodayWords(data)
-    })
+  onLoad: function (options) {
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
     console.log('main.js_onShow')
     let user = wx.getStorageSync('currentUser')
     let isAuto = user.isAuto == 1 ? true : false
@@ -66,15 +56,22 @@ Page({
       user: user
     })
     this.updateUserInfo(user)
+    let params = {
+      userId: wx.getStorageSync('userId')
+    }
+    let that = this
+    userApi.getRecords(params).then(data => {
+      that.getTodayWords(data)
+    })
   },
 
-/****************** Actions **********************/
+  /****************** Actions **********************/
 
   /**
    * 
    */
-  nextWordAction: function() {
-
+  nextWordAction: function () {
+    let that = this
     let current = this.data.wordlist.shift()
     let wordlist = this.data.wordlist
     if (current) {
@@ -84,26 +81,42 @@ Page({
         currentWord: current,
         wordlist: wordlist
       })
-    } else {
-      if(!this.data.isBackMemory) {
-        this.setData({
-          isBackMemory:true
-        })
-        this.creatRecord()
-      }else{
-
+      if (this.data.isAuto) {
+        this.playCurrentWord()
       }
-      
+    } else {
+      this.creatRecord()
+      if(this.data.forgetWordList.length > 0){
+        let forgetWordList = this.data.forgetWordList
+        current = forgetWordList.shift()
+        this.setData({
+          isClear: false,
+          confirmtext: '记得',
+          currentWord: current,
+          wordlist: forgetWordList,
+          forgetWordList:[]
+        })
+        if (this.data.isAuto) {
+          this.playCurrentWord()
+        }
+        return
+      }
+
+
       this.setData({
-        isMemoryEnd:true,
+        isMemoryEnd: true,
         isClear: false,
         confirmtext: 'End'
+      })
+
+      this.data.recordlist.map(item=>{
+        that.updateRecord(item)
       })
     }
   },
 
 
-  forgetAction: function() {
+  forgetAction: function () {
     let wordlist = this.data.wordlist
     wordlist.push(this.data.currentWord)
     this.setData({
@@ -113,29 +126,28 @@ Page({
     this.showMeans()
   },
 
-  checkMeans: function() {
+  checkMeans: function () {
     this.showMeans()
   },
 
-  showMeans: function() {
+  showMeans: function () {
     this.setData({
       isClear: true
     })
   },
 
-  playCurrentWord: function() {
+  playCurrentWord: function () {
     let type = this.data.isEn ? '1' : '2'
     const audio = wx.createInnerAudioContext()
     audio.autoplay = true
     audio.src = `http://dict.youdao.com/dictvoice?audio=${this.data.currentWord['word']}&type=${type}`
-
   },
 
-  toSetting: function() {
+  toSetting: function () {
     $.goto(config.page.setting)
   },
 
-  updateUserInfo: function(user) {
+  updateUserInfo: function (user) {
     this.setData({
       avatarUrl: user.avatarUrl,
       nickName: user.nickName,
@@ -159,7 +171,7 @@ Page({
 
     if (records.length > 0) {
       let nearlyRecord = records.pop()
-      if ($.timeIsEqual(nearlyRecord.startDate, Date.now())) {
+      if ($.timeIsEqual(nearlyRecord.startDate)) {
         beginIndex = nearlyRecord.beginIndex
         endIndex = nearlyRecord.endIndex
         skip = nearlyRecord.beginIndex - 1
@@ -167,6 +179,7 @@ Page({
         beginIndex = nearlyRecord.endIndex
         endIndex = nearlyRecord.endIndex + count
         skip = nearlyRecord.endIndex
+        records.push(nearlyRecord)
       }
     }
 
@@ -177,31 +190,36 @@ Page({
         wordlist: items,
         currentWord: items.shift()
       })
+
+      if (that.data.isAuto) {
+        that.playCurrentWord()
+      }
     })
     this.getAllNeedMemoryWords(records)
   },
 
-  getAllNeedMemoryWords: function(records){
-    console.log('main.js_getAllNeedMemoryWords',records)
+  getAllNeedMemoryWords: function (records) {
+    console.log('main.js_getAllNeedMemoryWords', records)
     let recordlist = []
     let that = this
-    records.map(item=>{
-      if ($.needRemeber(item.nextDate)){
+    let remeberRecords = records.map(item => {
+      if ($.needRemeber(item.nextDate)) {
         item.nextDate = $.nextRemeberDate(item)
-        item.nowDate = Date.now()
-        count = item.endIndex - item.beginIndex + 1 
+        item.nowDate = moment().format('YYYY MM DD'),
+        count = item.endIndex - item.beginIndex + 1
         skip = item.beginIndex - 1
         let forgetWordList = that.data.forgetWordList
         api.getWords(count, skip).then(items => {
-          forgetWordList.concat(items)
+          items.concat(forgetWordList)
           that.setData({
-            forgetWordList: forgetWordList,
+            forgetWordList: items,
           })
         })
       }
+      return item
     })
     this.setData({
-      recordlist: records
+      recordlist: remeberRecords
     })
   },
 
@@ -213,9 +231,9 @@ Page({
   creatRecord: function () {
     let params = {
       userId: wx.getStorageSync('userId'),
-      startDate: Date.now(),
-      nowDate: Date.now(),
-      nextDate: moment(Date.now()).add(1, 'days').valueOf(),
+      startDate: moment().format('YYYY MM DD'),
+      nowDate: moment().format('YYYY MM DD'),
+      nextDate: moment(Date.now()).add(1, 'days').format('YYYY MM DD'),
       beginIndex: this.data.beginIndex,
       endIndex: this.data.endIndex
     }
@@ -226,16 +244,7 @@ Page({
   },
 
   updateRecord: function (record) {
-
-    let date = moment(Date.now()).add('day', 1)
-    console.log('main.js_creatRecord()', date)
-    let params = {
-      userId: wx.getStorageSync('userId'),
-      nowDate: Date.now(),
-      nextDate: moment(Date.now()).add(1, 'days').unix(),
-    }
-
-    userApi.updateRecord(params).then(data => {
+    userApi.updateRecord(record).then(data => {
       console.log('update-------', data)
     })
   },

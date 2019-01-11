@@ -2,12 +2,13 @@
   "pages": [
     "pages/welcome/welcome",
     "pages/main/main",
-    "pages/setting/setting"
+    "pages/setting/setting",
+    "pages/feedback/feedback"
   ],
   "window": {
     "backgroundColor": "#72E87B",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#72E87B",
-    "navigationBarTitleText": "麦克米兰7000词"
+    "navigationBarTitleText": "麦克米伦7000词"
   }
 }

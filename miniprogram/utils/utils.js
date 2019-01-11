@@ -418,19 +418,17 @@ function callCloud (name,data={}) {
  * 
  *****************************************************/
 
-  function timeIsEqual (first,second) {
-    let firstInterval = moment(first).format('YYYY MM DD')
-    let secondInterval = moment(second).format('YYYY MM DD')
-    console.log(firstInterval, secondInterval, (firstInterval == secondInterval))
-    return (firstInterval == secondInterval)
+  // 时间是否相等
+  function timeIsEqual (time) {
+    let now = moment().format('YYYY MM DD')
+    console.log('是不是当天', (time == now))
+    return (time == now)
   }
 
-  //
+  //是否需要记忆
   function needRemeber (nextDate) {
-    let firstTime = moment().format('YYYY MM DD')
-    let secondTime = moment(nextDate).format('YYYY MM DD')
-
-    if (moment(secondTime).isBefore(firstTime) || moment(secondTime).isSame(firstTime)){
+    let now = moment().format('YYYY MM DD')
+    if (moment(nextDate).isBefore(now) || moment(nextDate).isSame(now)){
       return true
     }else{
       return false
@@ -438,18 +436,18 @@ function callCloud (name,data={}) {
   }
 
   function nextRemeberDate (record) {
-    let startTime = moment(record.startDate).format('YYYY MM DD')
-    let nextTime = moment(record.nextDate).format('YYYY MM DD')
+    let startTime = record.startDate
+    let nextTime = record.nextDate
     let difference = moment(nextTime).subtract(moment(startTime)).days()
     var nextDate = 0
     if(difference == 1){
-      nextDate = moment(record.nextDate).add('day',1).valueOf()
+      nextDate = moment(record.nextDate).add('day', 1).format('YYYY MM DD')
     }else if(difference == 2){
-      nextDate = moment(record.nextDate).add('day', 2).valueOf()
+      nextDate = moment(record.nextDate).add('day', 2).format('YYYY MM DD')
     } else if (difference == 4){
-      nextDate = moment(record.nextDate).add('day', 3).valueOf()
+      nextDate = moment(record.nextDate).add('day', 3).format('YYYY MM DD')
     } else if (difference == 7){
-      nextDate = moment(record.nextDate).add('day', 8).valueOf()
+      nextDate = moment(record.nextDate).add('day', 8).format('YYYY MM DD')
     } 
     console.log('nextRemeberDate', nextDate, moment(nextDate).format('YYYY MM DD'))
     return nextDate

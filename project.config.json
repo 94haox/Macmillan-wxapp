@@ -2,8 +2,8 @@
 	"miniprogramRoot": "miniprogram/",
 	"cloudfunctionRoot": "cloudfunctions/",
 	"setting": {
-		"urlCheck": false,
-		"es6": false,
+		"urlCheck": true,
+		"es6": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,

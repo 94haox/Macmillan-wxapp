@@ -3,10 +3,10 @@
  */
 
 
-// var host = "api.funnyfm.top/api"; 
-// var hostPrefix = 'https'
-var host = '127.0.0.1:7001/api'
-var hostPrefix = 'http'
+var host = "api.funnyfm.top/api"; 
+var hostPrefix = 'https'
+// var host = '127.0.0.1:7001/api'
+// var hostPrefix = 'http'
 var config = {
 
   // 页面常量
@@ -14,9 +14,10 @@ var config = {
     welcome:'/pages/welcome/welcome', // 欢迎页
     main: '/pages/main/main',  //首页
     setting: '/pages/setting/setting',  //登录
+    feedback: '/pages/feedback/feedback',  //反馈
   },
 
-  appversion: '0.0.1',
+  appversion: '0.5.3',
   appId: "wxe31a6720f732aecf",
   source: 'wx_app',
 
@@ -29,6 +30,7 @@ var config = {
   updateUser: `${hostPrefix}://${host}/v1/user/updateUser`,
   updateRecord: `${hostPrefix}://${host}/v1/user/updateRecord`,
   getRecords: `${hostPrefix}://${host}/v1/user/getRecords`,
+  createFeedback: `${hostPrefix}://${host}/v1/user/createFeedback`,
 
 };
 module.exports = config

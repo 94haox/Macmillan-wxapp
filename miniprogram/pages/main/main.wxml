@@ -7,7 +7,8 @@
     </view>
     <view class='header-view-right' bindtap='toSetting'>
       <view class='word-count content-center'>
-        <text class='word-count-text'>{{wordlist.length}}</text>
+        <text class='word-count-text' wx:if='{{forgetWordList.length < 1}}'>{{wordlist.length}}</text>
+        <text class='word-count-text' wx:else>{{wordlist.length}}+{{forgetWordList.length}}</text>
       </view>
     </view>
   </view>
@@ -33,7 +34,7 @@
       </view>
     </view>
   </view>
-  <view wx:else class='content-center'>
+  <view wx:else class='content-center end-container'>
     <text class='means-text'>恭喜完成今天的记忆任务，休息一下，明天再来努力吧</text>
   </view>
 

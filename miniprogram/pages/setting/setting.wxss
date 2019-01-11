@@ -52,6 +52,13 @@
 
 .wordcount-text{
     color: rgb(114, 123, 136);
+    font-size: 13px;
+    font-family: PingFangSC-Semibold;
+    margin-left: 5px;
+}
+
+.wordcount-text-spical{
+    color: #72E87B;
     font-size: 16px;
     font-family: PingFangSC-Semibold;
     margin-left: 5px;
@@ -123,7 +130,7 @@
 }
 
 .save-btn{
-  position: absolute;
+  position: fixed;
   bottom: 30px;
   width: 80%;
   height: 50px;
@@ -134,7 +141,7 @@
 }
 
 .version-text{
-  position: absolute;
+  position: fixed;
   bottom: 5px;
   font-family: PingFangSC-Regular;
   font-size: 10px;
