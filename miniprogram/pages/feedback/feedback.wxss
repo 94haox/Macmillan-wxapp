@@ -1,0 +1,26 @@
+/* miniprogram/pages/feedback/feedback.wxss */
+
+.title{
+  margin-top: 32px;
+  width: 90%;
+  margin-left: 5%;
+  display: flex;
+  border-radius: 5px;
+  height: 40px;
+  box-shadow: 0 0 5px 5px rgba(114, 232, 124, 0.267);
+}
+
+.content{
+  margin-top: 32px;
+  width: 90%;
+  margin-left: 5%;
+  display: flex;
+  border-radius: 5px;
+  height: 100px;
+  box-shadow: 0 0 5px 5px rgba(114, 232, 124, 0.267);
+  tab-size: 14px;
+}
+
+.save-btn{
+  margin-top: 100px;
+}

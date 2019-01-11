@@ -1,0 +1,13 @@
+<!--miniprogram/pages/feedback/feedback.wxml-->
+<view class='title'>
+  <input placeholder='  反馈主题' style='width:100%;height:100%' bindinput='titleInput'></input>
+</view>
+<view class='content'>
+  <textarea placeholder='请在这里填写反馈内容' style='width:100%;height:100%' bindinput='contentInput'></textarea>
+</view>
+
+<view class='save-btn'>
+    <form bindsubmit="formSubmit" report-submit>
+      <button class='free-btn-bordernone round-btn' formType="submit">提交反馈</button>
+    </form>
+</view>
