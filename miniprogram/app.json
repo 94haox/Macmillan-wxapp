@@ -1,13 +1,14 @@
 {
-  "pages": [
-    "pages/welcome/welcome",
-    "pages/main/main",
-    "pages/setting/setting"
-  ],
-  "window": {
-    "backgroundColor": "#72E87B",
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#72E87B",
-    "navigationBarTitleText": "麦克米兰7000词"
-  }
+    "pages": [
+        "pages/welcome/welcome",
+        "pages/main/main",
+        "pages/setting/setting",
+        "pages/rule/rule"
+    ],
+    "window": {
+        "backgroundColor": "#72E87B",
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#72E87B",
+        "navigationBarTitleText": "麦克米兰7000词"
+    }
 }

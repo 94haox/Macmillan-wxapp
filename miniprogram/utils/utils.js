@@ -10,6 +10,7 @@
 const md5 = require('md5')
 const config = require('../config')
 const errorCode = require('./errorCode')
+const monent = require('./momnet.js')
 const ver = config.appversion
 const source = config.source
 const appId = config.appId
@@ -331,14 +332,7 @@ function getHeader(url, data = '') {
     let ts = Date.parse(new Date())
     let sourceData = key + appId + ts + url + data
     let sign = md5(sourceData)
-    // console.log(`# sourceData = ${sourceData}`)
-    // console.log(`# key = ${key}`)
-    // console.log(`# appId = ${appId}`)
-    // console.log(`# ts = ${ts}`)
-    // console.log(`# url  = ${url}`)
-    // console.log(`# source  = ${source}`)
     console.warn(`# sign=${sign}`)
-
     return {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
         ver: ver,
@@ -394,7 +388,6 @@ function del(url) {
     })
 }
 
-
 function callCloud (name,data={}) {
   return new Promise(function(resolve, reject){
     wx.cloud.callFunction({
@@ -408,6 +401,13 @@ function callCloud (name,data={}) {
       }
     }) 
   })
+}
+
+/*****************************************************************
+ *  DATE
+ *****************************************************************/
+function dateYMD() {
+    return monent().format('YYYY MM DD')
 }
 
 /*****************************************************************
@@ -440,5 +440,9 @@ module.exports = {
 
     uploadToOSS: uploadToOSS,
     getAppInstance: getAppInstance,
-    callCloud: callCloud
+    callCloud: callCloud,
+
+    dateYMD: dateYMD
+
+
 }

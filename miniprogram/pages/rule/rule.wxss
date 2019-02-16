@@ -1,0 +1,28 @@
+/* miniprogram/pages/rule/rule.wxss */
+
+.header-text {
+    margin-top: 16px;
+    width: 1000%;
+    font-size: 24px;
+    text-align: center;
+    font-family: PingFangSC-Semibold;
+}
+
+.q-text {
+    margin-top: 16px;
+    font-size: 16px;
+    width: 95%;
+    text-align: left;
+    font-family: PingFangSC-Regular;
+    color:  rgb(114, 123, 136)
+}
+
+.a-text{
+    font-size: 14px;
+}
+
+.row-whole{
+    margin-top: 15px;
+    width: 100%;
+}
+

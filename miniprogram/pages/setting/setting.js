@@ -1,5 +1,6 @@
 
 const config = require('../../config.js')
+const userApi = require('../../api/user_api.js')
 
 
 Page({
@@ -39,9 +40,16 @@ Page({
     },
 
     formSubmit: function (e) {
-      let formId = event.detail.formId;
-      console.log('form发生了submit事件，推送码为：', formId)
+      let formId = e.detail.formId;
       
+      let params = this.data
+      params.openId = wx.getStorageSync('openId')
+        console.log('form发生了submit事件，推送码为：', formId,params)
+        userApi.updateUser(params).then(res=>{
+          console.log('setting.js_formSubmit_updateuser',res)
+          wx.navigateBack({
+          })
+      })
     },
 
     changeWordCount: function (el) {
@@ -56,6 +64,9 @@ Page({
     changeAutoAnnuce: function (el){
         let value = el.detail.value
         wx.setStorageSync("isAuto", value)
+        this.setData({
+            isAuto: value
+        })
     },
 
     changeAnnounceType: function () {

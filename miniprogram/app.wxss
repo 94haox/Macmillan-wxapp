@@ -16,6 +16,10 @@
     justify-content:center;
 }
 
+.content-colum{
+    flex-direction: column;
+}
+
 .free-btn-bordernone{
   background: none;
   color: white;
