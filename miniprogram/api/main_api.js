@@ -11,9 +11,8 @@ function getWords(count=300, skip=0){
       reject(error)
     })
   })
-  
-
 }
+
 
 
 

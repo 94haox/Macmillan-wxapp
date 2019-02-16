@@ -3,7 +3,8 @@
         "pages/welcome/welcome",
         "pages/main/main",
         "pages/setting/setting",
-        "pages/rule/rule"
+        "pages/rule/rule",
+        "pages/feedback/feedback"
     ],
     "window": {
         "backgroundColor": "#72E87B",

@@ -10,7 +10,7 @@
 const md5 = require('md5')
 const config = require('../config')
 const errorCode = require('./errorCode')
-const monent = require('./momnet.js')
+const moment = require('moment')
 const ver = config.appversion
 const source = config.source
 const appId = config.appId
@@ -403,6 +403,51 @@ function callCloud (name,data={}) {
   })
 }
 
+
+/*****************************************************
+ * 
+ * 时间相关
+ * 
+ *****************************************************/
+
+  // 时间是否相等
+  function timeIsEqual (time) {
+    let now = moment().format('YYYY MM DD')
+    console.log('是不是当天', (time == now))
+    return (time == now)
+  }
+
+  //是否需要记忆
+  function needRemeber (nextDate) {
+    let now = moment().format('YYYY MM DD')
+    if (moment(nextDate).isBefore(now) || moment(nextDate).isSame(now)){
+      return true
+    }else{
+      return false
+    }
+  }
+
+  function nextRemeberDate (record) {
+    let startTime = record.startDate
+    let nextTime = record.nextDate
+    let difference = moment(nextTime).subtract(moment(startTime)).days()
+    var nextDate = 0
+    if(difference == 1){
+      nextDate = moment(record.nextDate).add('day', 1).format('YYYY MM DD')
+    }else if(difference == 2){
+      nextDate = moment(record.nextDate).add('day', 2).format('YYYY MM DD')
+    } else if (difference == 4){
+      nextDate = moment(record.nextDate).add('day', 3).format('YYYY MM DD')
+    } else if (difference == 7){
+      nextDate = moment(record.nextDate).add('day', 8).format('YYYY MM DD')
+    } 
+    console.log('nextRemeberDate', nextDate, moment(nextDate).format('YYYY MM DD'))
+    return nextDate
+  }
+
+
+
+
 /*****************************************************************
  *  DATE
  *****************************************************************/
@@ -442,7 +487,9 @@ module.exports = {
     getAppInstance: getAppInstance,
     callCloud: callCloud,
 
+    timeIsEqual: timeIsEqual,
+    needRemeber: needRemeber,
+    nextRemeberDate: nextRemeberDate,
     dateYMD: dateYMD
-
 
 }

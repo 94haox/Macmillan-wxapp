@@ -1,5 +1,6 @@
 //app.js
 const updateManager = wx.getUpdateManager()
+global.regeneratorRuntime = require('./utils/regenerator-runtime/runtime-module.js')
 
 App({
   onLaunch: function () {

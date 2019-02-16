@@ -2,45 +2,82 @@ const $ = require('../../utils/utils.js')
 const config = require('../../config.js')
 const userApi = require('../../api/user_api.js')
 const file_tool = require('../../utils/file_tool.js')
+const moment = require('moment');
 
 Page({
 
-    /**
-     * 页面的初始数据
-     */
-    data: {
-        avatarUrl: "../../images/user-unlogin.png",
-        nickName: "需要您的授权获取您的微信相关信息,这对保存您的学习记录非常重要",
-        showAuthor: true,
-        btnTitle: "开始记忆"
-    },
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    avatarUrl: "../../images/user-unlogin.png",
+    nickName:"需要您的授权获取您的微信相关信息,这对保存您的学习记录非常重要",
+    showAuthor:true,
+    btnTitle:'开始记忆'
+  },
 
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad: function(options) {
-        this.isShowAuthor()
-    },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.isShowAuthor()
+  },
 
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function() {
 
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-        let word = wx.getStorageSync('today')
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    let word = wx.getStorageSync('today')
         if (word) {
             console.log('word', word)
             this.setData({
                 btnTitle: "继续记忆"
             })
         }
-    },
+  },
+
+  toMain: function () {
+    $.goto(config.page.main, true)
+  },
+
+  getUserInfo: function (e) {
+    this.configUser(e.detail.userInfo)
+  },
+
+  configUser: function (userInfo) {
+    let that = this
+    this.setData({
+      avatarUrl: userInfo.avatarUrl,
+      nickName: userInfo.nickName,
+      showAuthor: false
+    })
+    wx.setStorageSync('userinfo', userInfo);
+    let openid = wx.getStorageSync('openId')
+    if(openid.length < 1){
+      $.callCloud('login').then(res => {
+        let openid = res.openid
+        wx.setStorageSync('openId', openid)
+        that.updateUser(userInfo,openid)
+      })
+    }else{
+      that.updateUser(userInfo, openid)
+    }
+  },
+
+  updateUser: function (userInfo,openid) {
+    let params = {
+      openId: openid,
+      nickName: userInfo.nickName,
+      avatarUrl: userInfo.avatarUrl,
+    }
+
+    userApi.updateUser(params).then(res=>{
+      wx.setStorageSync('currentUser', res)
+      wx.setStorageSync('userId', res._id)
+    }).catch(error=>{
+    })
+  },
 
     toMain: function() {
         let word = wx.getStorageSync('today')

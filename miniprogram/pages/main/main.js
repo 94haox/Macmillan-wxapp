@@ -1,175 +1,281 @@
 // miniprogram/pages/main/main.js
 
 const api = require('../../api/main_api.js')
+const userApi = require('../../api/user_api.js')
 const $ = require('../../utils/utils.js')
 const config = require('../../config.js')
+const moment = require('moment');
+
+
 Page({
 
-    /**
-     * 页面的初始数据
-     */
-    data: {
-        currentWord: {
-            "word": "abandon",
-            "means": "n. 放任；狂热 vt. 遗弃；放弃",
-            "En": "[əˈbænd(ə)n]",
-            "Am": "[əˈbændən]"
-        },
-        currentIndex: 0,
-        wordlist: [],
-        forgetWordList: [],
-        isAuto: false,
-        currentCount: 300,
-        avatarUrl: "../../images/user-unlogin.png",
-        nickName: "点击获取微信昵称",
-        isLogin: false,
-        userInfo: {},
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    currentWord: {
+      "word": "abandon",
+      "means": "n. 放任；狂热 vt. 遗弃；放弃",
+      "En": "[əˈbænd(ə)n]",
+      "Am": "[əˈbændən]"
+    },
+    wordlist: [],
+    forgetWordList: [],
+    isAuto: false,
+    isEn: true,
+    avatarUrl: "../../images/user-unlogin.png",
+    nickName: "点击获取微信昵称",
+    user: {},
+    isClear: false,
+    confirmtext: '记得',
+    forgettext: '忘记',
+    beginIndex: 1,
+    endIndex: 300,
+    recordlist: [],      // 背诵记录列表
+    isMemoryEnd: false,
+    currentWordId: ''
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    if (options['wordId'] != undefined) {
+      this.setData({
+          currentWordId: options['wordId']
+      })
+  }
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    console.log('main.js_onShow')
+    let user = wx.getStorageSync('currentUser')
+    let isAuto = user.isAuto == 1 ? true : false
+    let isEn = user.isEnAnnuce == 1 ? true : false
+    this.setData({
+      isAuto: isAuto,
+      isEn: isEn,
+      user: user
+    })
+    this.updateUserInfo(user)
+    let params = {
+      userId: wx.getStorageSync('userId')
+    }
+    let that = this
+    userApi.getRecords(params).then(data => {
+      that.getTodayWords(data)
+    })
+  },
+
+  /****************** Actions **********************/
+
+  /**
+   * 
+   */
+  nextWordAction: function () {
+    let that = this
+    let current = this.data.wordlist.shift()
+    let wordlist = this.data.wordlist
+    if (current) {
+      this.setData({
         isClear: false,
         confirmtext: '记得',
-        forgettext: '忘记',
-        currentWordId: ''
-    },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad: function(options) {
-        // 获取用户信息
-        wx.getSetting({
-            success: res => {
-                if (res.authSetting['scope.userInfo']) {
-                    // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-                    wx.getUserInfo({
-                        success: res => {
-                            this.setData({
-                                isLogin: true
-                            })
-                            this.updateUserInfo(res.userInfo)
-                        }
-                    })
-                }
-            }
-        })
-        console.log('option:', options)
-
-        if (options['wordId'] != undefined) {
-            this.setData({
-                currentWordId: options['wordId']
-            })
-        }
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function() {
-        let that = this
-        api.getWords().then(items => {
-            let startItems = that.getStartWordlist(items)
-            that.setData({
-                wordlist: startItems,
-                currentWord: startItems.shift()
-            })
-        })
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-
-    },
-
-    nextWordAction: function() {
-        let current = this.data.wordlist.shift()
-        let wordlist = this.data.wordlist
-        if (current) {
-            this.setData({
-                isClear: false,
-                confirmtext: '记得',
-                currentWord: current,
-                wordlist: wordlist
-            })
-            wx.setStorageSync('today', current)
-        } else {
-            this.setData({
-                isClear: false,
-                confirmtext: 'End'
-            })
-        }
-    },
-
-    forgetAction: function() {
-        if (this.data.confirmtext == '下一个') {
-            return
-        }
-        let forgetlist = this.data.forgetWordList
-        forgetlist.push(this.data.currentWord)
-        wx.setStorageSync('forgetlist', forgetlist)
+        currentWord: current,
+        wordlist: wordlist
+      })
+      if (this.data.isAuto) {
+        this.playCurrentWord()
+      }
+      wx.setStorageSync('today', current)
+    } else {
+      this.creatRecord()
+      if(this.data.forgetWordList.length > 0){
+        let forgetWordList = this.data.forgetWordList
+        current = forgetWordList.shift()
         this.setData({
-            forgetWordList: forgetlist,
-            confirmtext: '下一个'
+          isClear: false,
+          confirmtext: '记得',
+          currentWord: current,
+          wordlist: forgetWordList,
+          forgetWordList:[]
         })
-        this.showMeans()
-    },
-
-    checkMeans: function() {
-        this.showMeans()
-    },
-
-    showMeans: function() {
-        this.setData({
-            isClear: true
-        })
-    },
-
-    playCurrentWord: function() {
-        const audio = wx.createInnerAudioContext()
-        audio.autoplay = true
-        audio.src = `http://dict.youdao.com/dictvoice?audio=${this.data.currentWord['word']}&type=1`
-
-    },
-
-    toSetting: function() {
-        $.goto(config.page.setting)
-    },
-
-    updateUserInfo: function(userInfo) {
-        this.setData({
-            avatarUrl: userInfo.avatarUrl,
-            nickName: userInfo.nickName,
-            userInfo: userInfo,
-        })
-    },
-
-    getStartWordlist: function(items) {
-        if (this.data.currentWordId == undefined) {
-            return items
+        if (this.data.isAuto) {
+          this.playCurrentWord()
         }
-        if (this.data.currentWordId.length > 1) {
-            let index = 0
-            for (let i = 0; i < items.length; i++) {
-                let word = items[i];
-                if (word._id == this.data.currentWordId) {
-                    index = i;
-                    break;
-                }
-            }
-            let startIndex = 0;
-            while (startIndex <= index-1) {
-                items.shift()
-                startIndex++
-            }
-        }
-        return items
-    },
+        return
+      }
 
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function () {
 
+      this.setData({
+        isMemoryEnd: true,
+        isClear: false,
+        confirmtext: 'End'
+      })
+
+      this.data.recordlist.map(item=>{
+        that.updateRecord(item)
+      })
+    }
+  },
+
+
+  forgetAction: function () {
+    let wordlist = this.data.wordlist
+    wordlist.push(this.data.currentWord)
+    this.setData({
+      wordlist: wordlist,
+      confirmtext: '下一个'
+    })
+    this.showMeans()
+  },
+
+  checkMeans: function () {
+    this.showMeans()
+  },
+
+  showMeans: function () {
+    this.setData({
+      isClear: true
+    })
+  },
+
+  playCurrentWord: function () {
+    let type = this.data.isEn ? '1' : '2'
+    const audio = wx.createInnerAudioContext()
+    audio.autoplay = true
+    audio.src = `http://dict.youdao.com/dictvoice?audio=${this.data.currentWord['word']}&type=${type}`
+  },
+
+  toSetting: function () {
+    $.goto(config.page.setting)
+  },
+
+  updateUserInfo: function (user) {
+    this.setData({
+      avatarUrl: user.avatarUrl,
+      nickName: user.nickName,
+      user: user,
+    })
+  },
+
+
+  /******************** Network ********************/
+
+  /**
+   * 获取当天单词
+   */
+  getTodayWords: function (records) {
+    let that = this
+    let user = wx.getStorageSync('currentUser')
+    let count = user.dayCount
+    let beginIndex = 1
+    let endIndex = count
+    let skip = 0
+
+    if (records.length > 0) {
+      let nearlyRecord = records.pop()
+      if ($.timeIsEqual(nearlyRecord.startDate)) {
+        beginIndex = nearlyRecord.beginIndex
+        endIndex = nearlyRecord.endIndex
+        skip = nearlyRecord.beginIndex - 1
+      } else {
+        beginIndex = nearlyRecord.endIndex
+        endIndex = nearlyRecord.endIndex + count
+        skip = nearlyRecord.endIndex
+        records.push(nearlyRecord)
+      }
     }
 
+    api.getWords(count, skip).then(items => {
+      let startItems = that.getStartWordlist(items)
+      that.setData({
+        beginIndex: beginIndex,
+        endIndex: endIndex,
+        wordlist: startItems,
+        currentWord: startItems.shift()
+      })
+
+      if (that.data.isAuto) {
+        that.playCurrentWord()
+      }
+    })
+    this.getAllNeedMemoryWords(records)
+  },
+
+  getAllNeedMemoryWords: function (records) {
+    console.log('main.js_getAllNeedMemoryWords', records)
+    let recordlist = []
+    let that = this
+    let remeberRecords = records.map(item => {
+      if ($.needRemeber(item.nextDate)) {
+        item.nextDate = $.nextRemeberDate(item)
+        item.nowDate = moment().format('YYYY MM DD'),
+        count = item.endIndex - item.beginIndex + 1
+        skip = item.beginIndex - 1
+        let forgetWordList = that.data.forgetWordList
+        api.getWords(count, skip).then(items => {
+          items.concat(forgetWordList)
+          that.setData({
+            forgetWordList: items,
+          })
+        })
+      }
+      return item
+    })
+    this.setData({
+      recordlist: remeberRecords
+    })
+  },
+
+
+  /**
+   * 创建 记忆记录
+   */
+
+  creatRecord: function () {
+    let params = {
+      userId: wx.getStorageSync('userId'),
+      startDate: moment().format('YYYY MM DD'),
+      nowDate: moment().format('YYYY MM DD'),
+      nextDate: moment(Date.now()).add(1, 'days').format('YYYY MM DD'),
+      beginIndex: this.data.beginIndex,
+      endIndex: this.data.endIndex
+    }
+
+    userApi.updateRecord(params).then(data => {
+      console.log('update-------', data)
+    })
+  },
+
+  updateRecord: function (record) {
+    userApi.updateRecord(record).then(data => {
+      console.log('update-------', data)
+    })
+  },
+
+  getStartWordlist: function(items) {
+    if (this.data.currentWordId == undefined) {
+        return items
+    }
+    if (this.data.currentWordId.length > 1) {
+        let index = 0
+        for (let i = 0; i < items.length; i++) {
+            let word = items[i];
+            if (word._id == this.data.currentWordId) {
+                index = i;
+                break;
+            }
+        }
+        let startIndex = 0;
+        while (startIndex <= index-1) {
+            items.shift()
+            startIndex++
+        }
+    }
+    return items
+}
 
 })
