@@ -71,7 +71,6 @@ Page({
       nickName: userInfo.nickName,
       avatarUrl: userInfo.avatarUrl,
     }
-
     userApi.updateUser(params).then(res=>{
       wx.setStorageSync('currentUser', res)
       wx.setStorageSync('userId', res._id)
@@ -124,7 +123,8 @@ Page({
         }
         console.log(params)
         userApi.updateUser(params).then(res => {
-            console.log(res)
+            wx.setStorageSync('currentUser', res)
+            wx.setStorageSync('userId', res._id)
         }).catch(error => {
 
         })
