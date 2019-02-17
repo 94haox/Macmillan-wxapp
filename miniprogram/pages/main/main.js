@@ -33,13 +33,18 @@ Page({
     endIndex: 300,
     recordlist: [],      // 背诵记录列表
     isMemoryEnd: false,
+    currentWordId: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    if (options['wordId'] != undefined) {
+      this.setData({
+          currentWordId: options['wordId']
+      })
+  }
   },
 
   /**
@@ -84,6 +89,7 @@ Page({
       if (this.data.isAuto) {
         this.playCurrentWord()
       }
+      wx.setStorageSync('today', current)
     } else {
       this.creatRecord()
       if(this.data.forgetWordList.length > 0){
@@ -184,11 +190,12 @@ Page({
     }
 
     api.getWords(count, skip).then(items => {
+      let startItems = that.getStartWordlist(items)
       that.setData({
         beginIndex: beginIndex,
         endIndex: endIndex,
-        wordlist: items,
-        currentWord: items.shift()
+        wordlist: startItems,
+        currentWord: startItems.shift()
       })
 
       if (that.data.isAuto) {
@@ -248,5 +255,27 @@ Page({
       console.log('update-------', data)
     })
   },
+
+  getStartWordlist: function(items) {
+    if (this.data.currentWordId == undefined) {
+        return items
+    }
+    if (this.data.currentWordId.length > 1) {
+        let index = 0
+        for (let i = 0; i < items.length; i++) {
+            let word = items[i];
+            if (word._id == this.data.currentWordId) {
+                index = i;
+                break;
+            }
+        }
+        let startIndex = 0;
+        while (startIndex <= index-1) {
+            items.shift()
+            startIndex++
+        }
+    }
+    return items
+}
 
 })

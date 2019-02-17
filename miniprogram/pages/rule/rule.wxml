@@ -1,0 +1,30 @@
+<!--miniprogram/pages/rule/rule.wxml-->
+<view class='container'>
+    <view class='row-whole'>
+        <text class='header-text'>关于背诵进度记录的说明</text>
+    </view>
+    <view class='content-center content-colum row-whole'>
+        <view class='row-whole'>
+            <text class='q-text'>✣  怎样才会云端同步？</text>
+        </view>
+        <view class='row-whole'>
+            <text class='q-text a-text'>  当您背诵完所有的当天的单词时，也就是说当天所有单词您在背诵中都标记了『记得』，那么将会在云端产生一条记忆记录，将在特定的记忆节点推送您下一阶段的单词和应复习的单词。\n  并且当您切换设备时，记录仍然存在。</text>
+        </view>
+    </view>
+
+    <view class='content-center content-colum row-whole'>
+        <view class='row-whole'>
+            <text class='q-text'>✣  如果自定义的单词量未背完？</text>
+        </view>
+        <view class='row-whole'>
+            <text class='q-text a-text'>未背完，我们仍然会记录当前的进度，但这意味着您并没有完成一次完整的背诵计划，所以并不会在云端形成有效的记录；\n当您切换设备时，将会从当前进度的第一个单词开始记忆。</text>
+        </view>
+    </view>
+
+    <view>
+    </view>
+
+    <view>
+    </view>
+
+</view>

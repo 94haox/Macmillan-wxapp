@@ -1,27 +1,28 @@
 <!--miniprogram/pages/welcom.wxml-->
 <view class='container'>
 
-  <view class='content-center logo-container'>
-    <image src='../../images/logo.png' class='logo'></image>
-    <text class='slogen-text'>麦克米伦7500词</text>
-  </view>
-
-  <view class='author-container'>
-    <image class='userinfo-avatar' src='{{avatarUrl}}'></image>
-    <view class='no-author-container' wx:if='{{showAuthor}}'>
-      <button class='free-btn-bordernone author-btn content-center' bindgetuserinfo="getUserInfo" open-type='getUserInfo'>
-        <text>同意授权</text>
-      </button>
-    <text class='author-text'>需要您的授权获取您的微信相关信息,这对保存您的学习记录非常重要</text>
+    <view class='content-center logo-container'>
+        <image src='../../images/logo.png' class='logo'></image>
+        <text class='slogen-text'>麦克米伦7500词</text>
     </view>
-    <view class='content-center' style='flex-direction:column' wx:else>
-      <text class='author-text' style='width:100%'>Hi{{nickName}},快开始今天的记忆吧</text>
-      <view class='content-center round-btn' style='margin-top:16px' bindtap='toMain'>
-        <text>开始记忆</text>
-      </view>
+
+    <view class='author-container'>
+        <image class='userinfo-avatar' src='{{avatarUrl}}'></image>
+        <view class='no-author-container' wx:if='{{showAuthor}}'>
+            <button class='free-btn-bordernone author-btn content-center' bindgetuserinfo="getUserInfo" open-type='getUserInfo'>
+                <text>同意授权</text>
+            </button>
+            <text class='author-text'>需要您的授权获取您的微信相关信息,这对保存您的学习记录非常重要</text>
+        </view>
+        <view class='content-center' style='flex-direction:column' wx:else>
+            <text class='author-text' style='width:100%'>Hi  {{nickName}},快开始今天的记忆吧</text>
+            <view class='content-center round-btn' style='margin-top:16px' bindtap='toMain'>
+                <text>{{btnTitle}}</text>
+            </view>
+        </view>
     </view>
-  </view>
-  
 
-
+    <view class='content-center' bindtap='toRule'>
+        <text class='rule-text' style='width:100%'>云端同步规则</text>
+    </view>
 </view>

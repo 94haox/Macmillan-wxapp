@@ -332,14 +332,7 @@ function getHeader(url, data = '') {
     let ts = Date.parse(new Date())
     let sourceData = key + appId + ts + url + data
     let sign = md5(sourceData)
-    // console.log(`# sourceData = ${sourceData}`)
-    // console.log(`# key = ${key}`)
-    // console.log(`# appId = ${appId}`)
-    // console.log(`# ts = ${ts}`)
-    // console.log(`# url  = ${url}`)
-    // console.log(`# source  = ${source}`)
     console.warn(`# sign=${sign}`)
-
     return {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
         ver: ver,
@@ -394,7 +387,6 @@ function del(url) {
         header: getHeader(url)
     })
 }
-
 
 function callCloud (name,data={}) {
   return new Promise(function(resolve, reject){
@@ -457,6 +449,13 @@ function callCloud (name,data={}) {
 
 
 /*****************************************************************
+ *  DATE
+ *****************************************************************/
+function dateYMD() {
+    return monent().format('YYYY MM DD')
+}
+
+/*****************************************************************
  *  EXPORT
  *****************************************************************/
 module.exports = {
@@ -490,5 +489,7 @@ module.exports = {
 
     timeIsEqual: timeIsEqual,
     needRemeber: needRemeber,
-    nextRemeberDate: nextRemeberDate
+    nextRemeberDate: nextRemeberDate,
+    dateYMD: dateYMD
+
 }

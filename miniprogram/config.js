@@ -15,14 +15,15 @@ var config = {
     main: '/pages/main/main',  //首页
     setting: '/pages/setting/setting',  //登录
     feedback: '/pages/feedback/feedback',  //反馈
+    rule: '/pages/rule/rule', //云端同步规则
   },
 
-  appversion: '0.5.3',
+  appversion: '1.0.1',
   appId: "wxe31a6720f732aecf",
   source: 'wx_app',
 
-  // 下面的地址配合云端 Server 工作
-  host,
+    // 下面的地址配合云端 Server 工作
+    host,
 
   /**************后台接口定义***********************/
   // 获取单词
